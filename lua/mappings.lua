@@ -21,7 +21,8 @@ map("i", "<C-,>", '<Cmd>call codeium#CycleCompletions(-1)<CR>', opts)
 map("i", "<C-x>", '<Cmd>call codeium#Clear()<CR>', opts)
 
 -- LSP navigation bindings
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, desc = 'Go to definition' })
-vim.keymap.set('n', 'gp', vim.lsp.buf.hover, { noremap = true, silent = true, desc = 'Peek (hover) definition' })
-vim.keymap.set('n', '<leader>ld', '<cmd>Telescope lsp_document_symbols<cr>', { noremap = true, silent = true, desc = 'List document symbols' })
-vim.keymap.set('n', '<leader>lw', '<cmd>Telescope lsp_workspace_symbols<cr>', { noremap = true, silent = true, desc = 'List workspace symbols' })
+map('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, desc = 'Go to definition' })
+map('n', 'gp', vim.lsp.buf.hover, { noremap = true, silent = true, desc = 'Peek (hover) definition' })
+map('n', '<leader>ld', '<cmd>Telescope lsp_document_symbols<cr>', { noremap = true, silent = true, desc = 'List document symbols' })
+map('n', '<leader>lw', '<cmd>Telescope lsp_workspace_symbols<cr>', { noremap = true, silent = true, desc = 'List workspace symbols' })
+map('n', '<Leader>K', vim.diagnostic.open_float, { desc = 'Show diagnostics in floating window' })
