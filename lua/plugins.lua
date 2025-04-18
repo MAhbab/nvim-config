@@ -1,6 +1,5 @@
 return {
   { "folke/lazy.nvim" }, -- bootstrap plugin manager
-
   { "sheerun/vim-polyglot" },
   { "rust-lang/rust.vim" },
   { "hrsh7th/nvim-cmp" },

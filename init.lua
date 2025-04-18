@@ -38,4 +38,20 @@ require("mappings")
 require("obsidian_config")
 require("treesitter")
 require("obsidian_patch")
-require("test")
+require("find_by_field")
+
+-- Reload Module
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
+
+RELOAD = function(name)
+  package.loaded[name] = nil
+  return require(name)
+end
+
+R = function(name)
+  return P(RELOAD(name))
+end
+

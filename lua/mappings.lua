@@ -7,6 +7,8 @@ map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", opts)
 map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
 map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
 map("n", "<leader>ld", "<cmd>Telescope lsp_document_symbols<cr>", opts)
+map("n", "<leader>fk", require("telescope.builtin").keymaps, { desc = "Find keymap" })
+map("n", "<leader>fc", require("telescope.builtin").commands, { desc = "Find command" })
 
 -- Copy file path + line number to clipboard
 map("n", "<leader>y", [[:let @+ = expand("%:p") . ":" . line(".")<CR>]], { noremap = true })
@@ -26,3 +28,9 @@ map('n', 'gp', vim.lsp.buf.hover, { noremap = true, silent = true, desc = 'Peek 
 map('n', '<leader>ld', '<cmd>Telescope lsp_document_symbols<cr>', { noremap = true, silent = true, desc = 'List document symbols' })
 map('n', '<leader>lw', '<cmd>Telescope lsp_workspace_symbols<cr>', { noremap = true, silent = true, desc = 'List workspace symbols' })
 map('n', '<Leader>K', vim.diagnostic.open_float, { desc = 'Show diagnostics in floating window' })
+
+
+-- Obsidian
+local find_by_field = require('find_by_field')
+
+map('n', '<Leader>of', function() find_by_field.pick_field_value('day') end, {desc = 'Yeet buddy'})

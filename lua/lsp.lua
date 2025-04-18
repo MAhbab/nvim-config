@@ -38,3 +38,19 @@ lspconfig.rust_analyzer.setup({
   capabilities = capabilities,
   on_attach = on_attach,
 })
+
+-- lua lsp
+require('lspconfig').lua_ls.setup {
+  settings = {
+    Lua = {
+      workspace = {
+        checkThirdParty = false,
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      telemetry = { enable = false },
+    }
+  }
+}
