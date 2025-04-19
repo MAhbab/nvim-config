@@ -3,6 +3,9 @@ require("obsidian").setup({
     {
       name = "personal",
       path = "~/Documents/mindspace/content",
+      overrides = {
+        notes_subdir = "logs/thought",
+      },
     },
   },
   completion = {
@@ -13,7 +16,7 @@ require("obsidian").setup({
     date_format="%Y-%m-%d",
     time_format="%X",
   },
-  new_notes_location = "~/Documents/mindspace/content/logs/thought",
+  new_notes_location = "notes_subdir",
   note_frontmatter_func = function(note)
     -- note is a table like { title = ..., id = ..., dir = ..., path = ... }
     local time = os.date("*t")  -- get structured date/time
@@ -28,6 +31,9 @@ require("obsidian").setup({
     }
 
     return frontmatter
+  end,
+  note_path_func = function(spec)
+    return tostring(os.time())
   end,
 })
 vim.opt.conceallevel = 2

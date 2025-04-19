@@ -31,6 +31,6 @@ map('n', '<Leader>K', vim.diagnostic.open_float, { desc = 'Show diagnostics in f
 
 
 -- Obsidian
-local find_by_field = require('find_by_field')
+local find_by_field = require('user.obsidian.find_by_field')
 
-map('n', '<Leader>of', function() find_by_field.pick_field_value('day') end, {desc = 'Yeet buddy'})
+map('n', '<Leader>of', function() find_by_field.pick_field_value('role') end, {desc = 'Yeet buddy'})

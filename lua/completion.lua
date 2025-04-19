@@ -1,7 +1,7 @@
 -- lua/completion.lua
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-require('obsidian_patch')
+require('user.obsidian.patch')
 
 local vault_root = "/Users/mahfuj/Documents/mindspace/content"
 
