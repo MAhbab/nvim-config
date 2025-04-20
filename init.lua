@@ -40,6 +40,7 @@ require("user.obsidian.patch")
 require("user.obsidian.find_by_field")
 require("user.obsidian.config")
 require("user.obsidian.template_manager")
+require("utils.path")
 
 -- Reload Module
 P = function(v)

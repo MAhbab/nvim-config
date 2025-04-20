@@ -1,17 +1,42 @@
 -- lua/completion.lua
 local cmp = require('cmp')
 local luasnip = require('luasnip')
+local Path = require("plenary.path")
 require('user.obsidian.patch')
+local path_utils = require('utils.path')
 
 local vault_root = "/Users/mahfuj/Documents/mindspace/content"
+
+M = {}
 
 local function extract_relative_markdown_path(full_path)
   if not full_path or not full_path:match("%.md$") then
     return nil
   end
-  local rel = full_path:gsub("^" .. vim.pesc(vault_root) .. "/", ""):gsub("%.md$", "")
+
+  -- Get active file's full path
+  local active_path = vim.api.nvim_buf_get_name(0)
+
+  -- Convert both to Plenary Path objects
+  local from = Path:new(active_path):parent()
+  local to = Path:new(full_path)
+
+  -- Compute relative path
+  local rel = path_utils.relpath(to:absolute(), from:absolute())
+
+  -- Remove .md extension
+  rel = rel:gsub("%.md$", "")
+
   return rel
 end
+
+-- local function extract_relative_markdown_path(full_path)
+--   if not full_path or not full_path:match("%.md$") then
+--     return nil
+--   end
+--   local rel = full_path:gsub("^" .. vim.pesc(vault_root) .. "/", ""):gsub("%.md$", "")
+--   return rel
+-- end
 
 cmp.setup({
   completion = {
@@ -100,3 +125,9 @@ vim.keymap.set("i", "[", function()
     vim.api.nvim_feedkeys('[', 'n', false)
   end
 end, { noremap = true, silent = true })
+
+M._debug = {
+  extract_relative_markdown_path = extract_relative_markdown_path,
+}
+
+return M

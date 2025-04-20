@@ -1,42 +1,57 @@
-vim.schedule(function()
-  local ok, cmp_obsidian = pcall(require, "cmp_obsidian")
-  if not ok then
-    vim.notify("cmp_obsidian not available", vim.log.levels.WARN)
-    return
-  end
+-- ~/.config/nvim/lua/obsidian_patch.lua
+local cmp = require("cmp")
 
-  local original_complete = cmp_obsidian.complete
+cmp.event:on("confirm_done", function(entry)
+  vim.schedule(function()
+    if not entry then return end
+    if not entry.source then return end
+    if entry.source.name ~= "obsidian" then return end
 
-  --- Check if the cursor is currently inside a wikilink (after [[)
-  local function is_inside_wikilink()
+    print("🗂    Source name: obsidian")
+
+    local doc = entry.completion_item.documentation
+    if not doc or not doc.value then
+      print("⚠️ No documentation found")
+      return
+    end
+
+    print("📄 Raw doc.value:")
+    print(doc.value)
+
+    local full_path = doc.value:match("**path:** `%s*(.-)%.md`")
+    if not full_path then
+      full_path = doc.value:match("`(.-)%.md`")
+    end
+
+    if not full_path then
+      print("⚠️ Could not find full path")
+      return
+    end
+
+    -- Convert to relative path
+    local root = "/Users/mahfuj/Documents/mindspace/content/"
+    local rel_path = full_path:match(root .. "(.*)")
+    if not rel_path then
+      print("⚠️ Could not extract relative path")
+      return
+    end
+
+    -- Strip .md extension
+    rel_path = rel_path:gsub("%.md$", "")
+
+    -- Replace the existing [[...]] in buffer
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     local line = vim.api.nvim_get_current_line()
-    local col = vim.fn.col(".")
-    return line:sub(col - 2, col - 1) == "[["
-  end
+    local before = line:sub(1, col)
+    local start_idx = before:find("%[%[[^%[%]]*$") -- find start of [[... (non-greedy)
 
-  cmp_obsidian.complete = function(self, request, callback)
-    original_complete(self, request, function(items)
-      for _, item in ipairs(items) do
-        if is_inside_wikilink() then
-          -- For wikilinks, we want to replace the entire [[...]] content
-          if item.insertText then
-            -- Remove any existing [[ and ]] from the insertText
-            item.insertText = item.insertText:gsub("^%[%[", ""):gsub("%]%]$", "")
-            -- Set the word to match the label for filtering
-            item.word = item.label
-            -- Add the relative path to the documentation
-            if item.documentation and item.documentation.value then
-              local full_path = item.documentation.value:match("%*%*path:%*%* `%s*(.-)%s*`")
-              if full_path then
-                local vault_root = "/Users/mahfuj/Documents/mindspace/content"
-                local relative_path = full_path:gsub("^" .. vim.pesc(vault_root) .. "/", ""):gsub("%.md$", "")
-                item.insertText = relative_path
-              end
-            end
-          end
-        end
-      end
-      callback(items)
-    end)
-  end
+    if not start_idx then
+      print("⚠️ Could not find start of [[... to replace")
+      return
+    end
+
+    local new_line = before:sub(1, start_idx - 1) .. "[[" .. rel_path .. "]]" .. line:sub(col + 1)
+    vim.api.nvim_set_current_line(new_line)
+    vim.api.nvim_win_set_cursor(0, { row, start_idx + 2 + #rel_path }) -- move cursor to after ]]
+  end)
 end)
