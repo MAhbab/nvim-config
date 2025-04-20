@@ -106,11 +106,33 @@ cmp.setup({
     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
   }),
   sources = cmp.config.sources({
+    { name = 'obsidian', keyword_pattern = "%[%[[^%[%]]*" },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'path' },
-    { name = 'obsidian' },
+  }),
+})
+
+cmp.setup.filetype("markdown", {
+  sources = cmp.config.sources({
+    {
+      name = "obsidian",
+      keyword_pattern = "%[%[[^%[%]]*",
+      priority = 1000,
+    },
+    {
+      name = "buffer",
+      entry_filter = function(entry, ctx)
+        local before = ctx.context and ctx.context.cursor_before_line or ""
+        return not before:match("%[%[[^%[%]]*$")
+      end,
+    },
+    { name = "obsidian_new" },
+    { name = "obsidian_tags" },
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "path" },
   }),
 })
 
