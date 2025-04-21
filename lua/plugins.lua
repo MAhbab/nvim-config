@@ -11,7 +11,6 @@ return {
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim" },
   { "williamboman/mason-lspconfig.nvim" },
-  { "numirias/semshi", build = ":UpdateRemotePlugins" },
   { "Exafunction/codeium.vim", branch = "main" },
   { "nvim-lua/plenary.nvim" },
   { "nvim-telescope/telescope.nvim", build = ":UpdateRemotePlugins" },
