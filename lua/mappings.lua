@@ -34,7 +34,7 @@ map('n', '<Leader>K', vim.diagnostic.open_float, { desc = 'Show diagnostics in f
 local find_by_field = require('user.obsidian.find_by_field')
 local insert_link = require('user.obsidian.insert_link')
 
-map('n', '<Leader>of', function() find_by_field.pick_field_value('role') end, {desc = 'Yeet buddy'})
+map('n', '<Leader>of', function() find_by_field.pick_field_value('role') end, {desc = 'Find note by role'})
 map('n', '<Leader>oi', function() insert_link.insert_note_link() end, {desc = 'Insert link'})
 
 map("i", "<C-Space>", function()

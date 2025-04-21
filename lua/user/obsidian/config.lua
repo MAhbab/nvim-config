@@ -23,10 +23,10 @@ require("obsidian").setup({
     local frontmatter = {
       unix = os.time(),
       date = os.date("%Y-%m-%d"),
-      year = os.date("%Y"),
+      year = tonumber(os.date("%Y")),
       month = os.date("%B"),     -- Full month name (e.g. "April")
-      day = os.date("%A"),       -- Full weekday name (e.g. "Thursday")
-      hour = os.date("%H"),
+      day = tonumber(os.date("%A")),       -- Full weekday name (e.g. "Thursday")
+      hour = tonumber(os.date("%H")),
       timezone = os.date("%z"),
     }
 
