@@ -1,6 +1,5 @@
 return {
   { "folke/lazy.nvim" }, -- bootstrap plugin manager
-  { "sheerun/vim-polyglot" },
   { "rust-lang/rust.vim" },
   { "hrsh7th/nvim-cmp" },
   { "hrsh7th/cmp-nvim-lsp" },
@@ -15,5 +14,14 @@ return {
   { "nvim-lua/plenary.nvim" },
   { "nvim-telescope/telescope.nvim", build = ":UpdateRemotePlugins" },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  { "epwalsh/obsidian.nvim" },
+
+  {
+    "epwalsh/obsidian.nvim",
+    config = function()
+      -- Remove problematic autocommands (BufWritePre *.md)
+      vim.schedule(function() 
+	pcall(vim.api.nvim_del_augroup_by_name, "obsidian_setup")
+      end)
+    end,
+  },
 }

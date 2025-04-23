@@ -8,6 +8,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+
 vim.opt.rtp:prepend(lazypath)
 -- init.lua
 vim.loader.enable()
@@ -60,3 +61,8 @@ R = function(name)
   return P(RELOAD(name))
 end
 
+-- remove BufWritePre *.md autocommands
+vim.api.nvim_clear_autocmds({
+  event = "BufWritePre",
+  pattern = "*.md",
+})
